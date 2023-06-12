@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken'); // Add JWT library
 const config = require('./config'); // Create a separate config file
+const currentDate = new Date();
+const timestamp = currentDate.toISOString().slice(0, 10);
+
 // Parse JSON request bodies
 app.use(bodyParser.json());
 
@@ -44,7 +47,7 @@ const connection = mysql.createConnection({
 
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Success' });
+  res.json({ message: 'Success',timestamp:timestamp });
 })
 // Endpoint untuk mendapatkan semua pengguna
 app.get('/users', verifyToken, (req, res) => {
@@ -580,7 +583,7 @@ app.post('/bookings',verifyToken, (req, res) => {
   const { user_id, ticket_id, quantity, total_price, booking_date } = req.body;
 
   // Query SQL untuk memasukkan data booking baru ke dalam tabel "bookings"
-  const query = `INSERT INTO bookings (user_id, ticket_id, quantity, total_price, booking_date) VALUES (${id},${user_id}, ${ticket_id}, ${quantity}, ${total_price}, '${booking_date}')`;
+  const query = `INSERT INTO bookings (user_id, ticket_id, quantity, total_price, booking_date) VALUES (${user_id}, ${ticket_id}, ${quantity}, ${total_price}, '${booking_date}')`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
@@ -672,10 +675,10 @@ app.get('/reviews/:id',verifyToken, (req, res) => {
 
 // Endpoint untuk membuat ulasan baru
 app.post('/reviews',verifyToken, (req, res) => {
-  const { name, description, location, image_url, country_id } = req.body;
+  const { user_id, destination_id, rating, comment,review_date } = req.body;
 
   // Query SQL untuk memasukkan data ulasan baru ke dalam tabel "reviews"
-  const query = `INSERT INTO reviews (name, description, location, image_url, country_id) VALUES ('${name}', '${description}', '${location}', '${image_url}', ${country_id})`;
+  const query = `INSERT INTO reviews (user_id, destination_id, rating, comment, review_date) VALUES (${user_id}, ${destination_id}, ${rating}, '${comment}', '${review_date}')`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
@@ -691,10 +694,10 @@ app.post('/reviews',verifyToken, (req, res) => {
 // Endpoint untuk mengupdate ulasan berdasarkan ID
 app.put('/reviews/:id',verifyToken, (req, res) => {
   const reviewId = req.params.id;
-  const { name, description, location, image_url, country_id } = req.body;
+  const { user_id, destination_id, rating, comment, review_date } = req.body;
 
   // Query SQL untuk mengupdate data ulasan berdasarkan ID di tabel "reviews"
-  const query = `UPDATE reviews SET name = '${name}', description = '${description}', location = '${location}', image_url = '${image_url}', country_id = ${country_id} WHERE id = ${reviewId}`;
+  const query = `UPDATE reviews SET user_id = ${user_id}, destination_id = ${destination_id}, rating = ${rating}, comment = '${comment}', review_date ='${review_date}' WHERE id = ${reviewId}`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
