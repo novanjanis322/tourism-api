@@ -212,7 +212,7 @@ app.post('/countries',verifyToken, (req, res) => {
   const { name, capital } = req.body;
 
   // Query SQL untuk memasukkan data negara baru ke dalam tabel "countries"
-  const query = `INSERT INTO countries (name, capital) VALUES ('${name}', '${capital})`;
+  const query = `INSERT INTO countries (name, capital) VALUES ('${name}', '${capital}')`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
