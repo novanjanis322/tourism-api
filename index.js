@@ -31,12 +31,12 @@ const verifyToken = (req, res, next) => {
 const connection = mysql.createConnection({
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
-  port: process.env.MYSQL_PORT,
+  PORT: process.env.MYSQL_PORT,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE
   // host: 'containers-us-west-172.railway.app',
   // user: 'root',
-  // port: 6824,
+  // PORT: 6824,
   // password: 'vL9RhgWmWflNVCpVJy29',
   // database: 'railway'
 });
@@ -731,7 +731,7 @@ app.delete('/reviews/:id',verifyToken, (req, res) => {
 
 
 
-// Memulai server pada port tertentu
-app.listen(process.env.port, () => {
-  console.log(`Server started on port ${process.env.port}`);
+// Memulai server pada PORT tertentu
+app.listen(process.env.PORT, () => {
+  console.log(`Server started on PORT ${process.env.PORT}`);
 });
