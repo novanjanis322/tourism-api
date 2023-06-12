@@ -395,8 +395,8 @@ app.get('/tickets/:id',verifyToken, (req, res) => {
 
 // Endpoint untuk membuat tiket baru
 app.post('/tickets',verifyToken, (req, res) => {
-  const { destination_id, ticket_type, price, available_quantity, start_date, end_date } = req.body;
-  const query = `INSERT INTO tickets (destination_id, ticket_type, price, available_quantity, start_date, end_date) VALUES (${destination_id}, '${ticket_type}', ${price}, ${available_quantity}, '${start_date}', '${end_date}')`;
+  const { destination_id, ticket_type, price, available_quantity, start_date, end_date, destination_name } = req.body;
+  const query = `INSERT INTO tickets (destination_id, ticket_type, price, available_quantity, start_date, end_date, destination_name) VALUES (${destination_id}, '${ticket_type}', ${price}, ${available_quantity}, '${start_date}', '${end_date}','${destination_name}')`;
 
 
   // Melakukan eksekusi query ke database dan mengirim respons
@@ -413,8 +413,8 @@ app.post('/tickets',verifyToken, (req, res) => {
 // Endpoint untuk mengupdate tiket berdasarkan ID
 app.put('/tickets/:id',verifyToken, (req, res) => {
   const ticketId = req.params.id;
-  const { destination_id, ticket_type, price, available_quantity, start_date, end_date } = req.body;
-  const query = `UPDATE tickets SET destination_id = ${destination_id}, ticket_type = '${ticket_type}', price = ${price}, available_quantity = ${available_quantity}, start_date = '${start_date}', end_date = '${end_date}' WHERE id = ${ticketId}`;
+  const { destination_id, ticket_type, price, available_quantity, start_date, end_date, destination_name } = req.body;
+  const query = `UPDATE tickets SET destination_id = ${destination_id}, ticket_type = '${ticket_type}', price = ${price}, available_quantity = ${available_quantity}, start_date = '${start_date}', end_date = '${end_date}', destination_name = '${destination_name}' WHERE id = ${ticketId}`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
