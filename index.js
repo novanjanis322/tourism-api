@@ -731,7 +731,7 @@ app.delete('/reviews/:id',verifyToken, (req, res) => {
 
 //Booking Bundle
 // Endpoint to get all booking bundles
-app.get('/booking_bundle', verifyToken, (req, res) => {
+app.get('/booking_bundle', (req, res) => {
   const query = 'SELECT * FROM booking_bundle';
 
   connection.query(query, (error, results) => {
@@ -745,7 +745,7 @@ app.get('/booking_bundle', verifyToken, (req, res) => {
 });
 
 // Endpoint to get a specific booking bundle by ID
-app.get('/booking_bundle/:id', verifyToken, (req, res) => {
+app.get('/booking_bundle/:id', (req, res) => {
   const bundleId = req.params.id;
   const query = `SELECT * FROM booking_bundle WHERE id = ${bundleId}`;
 
@@ -764,7 +764,7 @@ app.get('/booking_bundle/:id', verifyToken, (req, res) => {
 });
 
 // Endpoint to create a new booking bundle
-app.post('/booking_bundle', verifyToken, (req, res) => {
+app.post('/booking_bundle', (req, res) => {
   const { user_id, nama_user, tiket_id, destination_name, quantity, kota, hotel_id, hotel_name, noPol, kursiTersedia } = req.body;
 
   const query = `INSERT INTO booking_bundle (user_id, nama_user, tiket_id, destination_name, quantity, kota, hotel_id, hotel_name, noPol, kursiTersedia) VALUES (${user_id}, '${nama_user}', ${tiket_id}, '${destination_name}', ${quantity}, '${kota}', '${hotel_id}', '${hotel_name}', '${noPol}', ${kursiTersedia})`;
@@ -780,7 +780,7 @@ app.post('/booking_bundle', verifyToken, (req, res) => {
 });
 
 // Endpoint to update a booking bundle by ID
-app.put('/booking_bundle/:id', verifyToken, (req, res) => {
+app.put('/booking_bundle/:id', (req, res) => {
   const bundleId = req.params.id;
   const { user_id, nama_user, tiket_id, destination_name, quantity, kota, hotel_id, hotel_name, noPol, kursiTersedia } = req.body;
 
@@ -797,7 +797,7 @@ app.put('/booking_bundle/:id', verifyToken, (req, res) => {
 });
 
 // Endpoint to delete a booking bundle by ID
-app.delete('/booking_bundle/:id', verifyToken, (req, res) => {
+app.delete('/booking_bundle/:id', (req, res) => {
   const bundleId = req.params.id;
   const query = `DELETE FROM booking_bundle WHERE id = ${bundleId}`;
 
