@@ -729,6 +729,89 @@ app.delete('/reviews/:id',verifyToken, (req, res) => {
 });
 
 
+//Booking Bundle
+// Endpoint to get all booking bundles
+app.get('/booking_bundle', verifyToken, (req, res) => {
+  const query = 'SELECT * FROM booking_bundle';
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching booking bundles:', error);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// Endpoint to get a specific booking bundle by ID
+app.get('/booking_bundle/:id', verifyToken, (req, res) => {
+  const bundleId = req.params.id;
+  const query = `SELECT * FROM booking_bundle WHERE id = ${bundleId}`;
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching booking bundle:', error);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+    if (results.length === 0) {
+      res.status(404).json({ error: 'Booking bundle not found' });
+      return;
+    }
+    res.json(results[0]);
+  });
+});
+
+// Endpoint to create a new booking bundle
+app.post('/booking_bundle', verifyToken, (req, res) => {
+  const { NIK, nama_user, tiket_id, destination_name, quantity, kota, hotel_id, hotel_name, noPol, kursiTersedia } = req.body;
+
+  const query = `INSERT INTO booking_bundle (NIK, nama_user, tiket_id, destination_name, quantity, kota, hotel_id, hotel_name, noPol, kursiTersedia) VALUES (${NIK}, '${nama_user}', ${tiket_id}, '${destination_name}', ${quantity}, '${kota}', '${hotel_id}', '${hotel_name}', '${noPol}', ${kursiTersedia})`;
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error creating booking bundle:', error);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+    res.json({ message: 'Booking bundle created successfully' });
+  });
+});
+
+// Endpoint to update a booking bundle by ID
+app.put('/booking_bundle/:id', verifyToken, (req, res) => {
+  const bundleId = req.params.id;
+  const { NIK, nama_user, tiket_id, destination_name, quantity, kota, hotel_id, hotel_name, noPol, kursiTersedia } = req.body;
+
+  const query = `UPDATE booking_bundle SET NIK = ${NIK}, nama_user = '${nama_user}', tiket_id = ${tiket_id}, destination_name = '${destination_name}', quantity = ${quantity}, kota = '${kota}', hotel_id = '${hotel_id}', hotel_name = '${hotel_name}', noPol = '${noPol}', kursiTersedia = ${kursiTersedia} WHERE id = ${bundleId}`;
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error updating booking bundle:', error);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+    res.json({ message: 'Booking bundle updated successfully' });
+  });
+});
+
+// Endpoint to delete a booking bundle by ID
+app.delete('/booking_bundle/:id', verifyToken, (req, res) => {
+  const bundleId = req.params.id;
+  const query = `DELETE FROM booking_bundle WHERE id = ${bundleId}`;
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error deleting booking bundle:', error);
+      res.status(500).json({ error: 'Internal server error' });
+      return;
+    }
+    res.json({ message: 'Booking bundle deleted successfully' });
+  });
+});
+
+
 
 
 // Memulai server pada port tertentu
