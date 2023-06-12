@@ -44,7 +44,7 @@ const connection = mysql.createConnection({
 
 
 app.get('/', (req, res) => {
-  console.log('test');
+  res.json({ message: 'Success' });
 })
 // Endpoint untuk mendapatkan semua pengguna
 app.get('/users', verifyToken, (req, res) => {
