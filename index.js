@@ -733,5 +733,5 @@ app.delete('/reviews/:id',verifyToken, (req, res) => {
 
 // Memulai server pada port tertentu
 app.listen(process.env.port, () => {
-  console.log('Server started on port 3000');
+  console.log(`Server started on port ${process.env.port}`);
 });
