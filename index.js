@@ -86,10 +86,10 @@ app.get('/users/:id',verifyToken, (req, res) => {
 
 // Endpoint untuk membuat pengguna baru
 app.post('/users', (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, address, phone_number } = req.body;
 
   // Query SQL untuk memasukkan data pengguna baru ke dalam tabel "users"
-  const query = `INSERT INTO users (name, email, password) VALUES ('${name}', '${email}', '${password}')`;
+  const query = `INSERT INTO users (name, email, password, address, phone_number) VALUES ('${name}', '${email}', '${password}','${address}','${phone_number}')`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
@@ -206,10 +206,10 @@ app.get('/countries/:id',verifyToken, (req, res) => {
 });
 
 app.post('/countries',verifyToken, (req, res) => {
-  const { name, capital, population } = req.body;
+  const { name, capital } = req.body;
 
   // Query SQL untuk memasukkan data negara baru ke dalam tabel "countries"
-  const query = `INSERT INTO countries (name, capital, population) VALUES ('${name}', '${capital}', ${population})`;
+  const query = `INSERT INTO countries (name, capital) VALUES ('${name}', '${capital})`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
@@ -225,10 +225,10 @@ app.post('/countries',verifyToken, (req, res) => {
 // Endpoint untuk mengupdate negara berdasarkan ID
 app.put('/countries/:id',verifyToken, (req, res) => {
   const countryId = req.params.id;
-  const { name, capital, population } = req.body;
+  const { name, capital } = req.body;
 
   // Query SQL untuk mengupdate data negara berdasarkan ID di tabel "countries"
-  const query = `UPDATE countries SET name = '${name}', capital = '${capital}', population = ${population} WHERE id = ${countryId}`;
+  const query = `UPDATE countries SET name = '${name}', capital = '${capital}' WHERE id = ${countryId}`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
@@ -392,10 +392,9 @@ app.get('/tickets/:id',verifyToken, (req, res) => {
 
 // Endpoint untuk membuat tiket baru
 app.post('/tickets',verifyToken, (req, res) => {
-  const { name, price, destinationId } = req.body;
+  const { destination_id, ticket_type, price, available_quantity, start_date, end_date } = req.body;
+  const query = `INSERT INTO tickets (destination_id, ticket_type, price, available_quantity, start_date, end_date) VALUES (${destination_id}, '${ticket_type}', ${price}, ${available_quantity}, '${start_date}', '${end_date}')`;
 
-  // Query SQL untuk memasukkan data tiket baru ke dalam tabel "tickets"
-  const query = `INSERT INTO tickets (name, price, destinationId) VALUES ('${name}', ${price}, ${destinationId})`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
@@ -411,10 +410,8 @@ app.post('/tickets',verifyToken, (req, res) => {
 // Endpoint untuk mengupdate tiket berdasarkan ID
 app.put('/tickets/:id',verifyToken, (req, res) => {
   const ticketId = req.params.id;
-  const { name, price, destinationId } = req.body;
-
-  // Query SQL untuk mengupdate data tiket berdasarkan ID di tabel "tickets"
-  const query = `UPDATE tickets SET name = '${name}', price = ${price}, destinationId = ${destinationId} WHERE id = ${ticketId}`;
+  const { destination_id, ticket_type, price, available_quantity, start_date, end_date } = req.body;
+  const query = `UPDATE tickets SET destination_id = ${destination_id}, ticket_type = '${ticket_type}', price = ${price}, available_quantity = ${available_quantity}, start_date = '${start_date}', end_date = '${end_date}' WHERE id = ${ticketId}`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
@@ -486,10 +483,10 @@ app.get('/payments/:id',verifyToken, (req, res) => {
 
 // Endpoint untuk membuat pembayaran baru
 app.post('/payments',verifyToken, (req, res) => {
-  const { amount, userId, ticketId } = req.body;
+  const { booking_id, payment_method, amount, payment_date } = req.body;
 
   // Query SQL untuk memasukkan data pembayaran baru ke dalam tabel "payments"
-  const query = `INSERT INTO payments (amount, userId, ticketId) VALUES (${amount}, ${userId}, ${ticketId})`;
+  const query = `INSERT INTO payments (booking_id, payment_method, amount, payment_date) VALUES (${booking_id}, '${payment_method}', ${amount}, '${payment_date}')`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
@@ -505,10 +502,10 @@ app.post('/payments',verifyToken, (req, res) => {
 // Endpoint untuk mengupdate pembayaran berdasarkan ID
 app.put('/payments/:id',verifyToken, (req, res) => {
   const paymentId = req.params.id;
-  const { amount, userId, ticketId } = req.body;
+  const { booking_id, payment_method, amount, payment_date } = req.body;
 
   // Query SQL untuk mengupdate data pembayaran berdasarkan ID di tabel "payments"
-  const query = `UPDATE payments SET amount = ${amount}, userId = ${userId}, ticketId = ${ticketId} WHERE id = ${paymentId}`;
+  const query = `UPDATE payments SET booking_id = ${booking_id}, payment_method = '${payment_method}', amount = ${amount}, payment_date = '${payment_date}' WHERE id = ${paymentId}`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
@@ -580,10 +577,10 @@ app.get('/bookings/:id',verifyToken, (req, res) => {
 
 // Endpoint untuk membuat booking baru
 app.post('/bookings',verifyToken, (req, res) => {
-  const { id, user_id, ticket_id, quantity, total_price, booking_date } = req.body;
+  const { user_id, ticket_id, quantity, total_price, booking_date } = req.body;
 
   // Query SQL untuk memasukkan data booking baru ke dalam tabel "bookings"
-  const query = `INSERT INTO bookings (id, user_id, ticket_id, quantity, total_price, booking_date) VALUES (${id},${user_id}, ${ticket_id}, ${quantity}, ${total_price}, '${booking_date}')`;
+  const query = `INSERT INTO bookings (user_id, ticket_id, quantity, total_price, booking_date) VALUES (${id},${user_id}, ${ticket_id}, ${quantity}, ${total_price}, '${booking_date}')`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
@@ -675,10 +672,10 @@ app.get('/reviews/:id',verifyToken, (req, res) => {
 
 // Endpoint untuk membuat ulasan baru
 app.post('/reviews',verifyToken, (req, res) => {
-  const { userId, destinationId, rating, comment } = req.body;
+  const { name, description, location, image_url, country_id } = req.body;
 
   // Query SQL untuk memasukkan data ulasan baru ke dalam tabel "reviews"
-  const query = `INSERT INTO reviews (userId, destinationId, rating, comment) VALUES (${userId}, ${destinationId}, ${rating}, '${comment}')`;
+  const query = `INSERT INTO reviews (name, description, location, image_url, country_id) VALUES ('${name}', '${description}', '${location}', '${image_url}', ${country_id})`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
@@ -694,10 +691,10 @@ app.post('/reviews',verifyToken, (req, res) => {
 // Endpoint untuk mengupdate ulasan berdasarkan ID
 app.put('/reviews/:id',verifyToken, (req, res) => {
   const reviewId = req.params.id;
-  const { userId, destinationId, rating, comment } = req.body;
+  const { name, description, location, image_url, country_id } = req.body;
 
   // Query SQL untuk mengupdate data ulasan berdasarkan ID di tabel "reviews"
-  const query = `UPDATE reviews SET userId = ${userId}, destinationId = ${destinationId}, rating = ${rating}, comment = '${comment}' WHERE id = ${reviewId}`;
+  const query = `UPDATE reviews SET name = '${name}', description = '${description}', location = '${location}', image_url = '${image_url}', country_id = ${country_id} WHERE id = ${reviewId}`;
 
   // Melakukan eksekusi query ke database dan mengirim respons
   connection.query(query, (error, results) => {
