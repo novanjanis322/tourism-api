@@ -765,9 +765,9 @@ app.get('/booking_bundle/:id', verifyToken, (req, res) => {
 
 // Endpoint to create a new booking bundle
 app.post('/booking_bundle', verifyToken, (req, res) => {
-  const { NIK, nama_user, tiket_id, destination_name, quantity, kota, hotel_id, hotel_name, noPol, kursiTersedia } = req.body;
+  const { user_id, nama_user, tiket_id, destination_name, quantity, kota, hotel_id, hotel_name, noPol, kursiTersedia } = req.body;
 
-  const query = `INSERT INTO booking_bundle (NIK, nama_user, tiket_id, destination_name, quantity, kota, hotel_id, hotel_name, noPol, kursiTersedia) VALUES (${NIK}, '${nama_user}', ${tiket_id}, '${destination_name}', ${quantity}, '${kota}', '${hotel_id}', '${hotel_name}', '${noPol}', ${kursiTersedia})`;
+  const query = `INSERT INTO booking_bundle (user_id, nama_user, tiket_id, destination_name, quantity, kota, hotel_id, hotel_name, noPol, kursiTersedia) VALUES (${user_id}, '${nama_user}', ${tiket_id}, '${destination_name}', ${quantity}, '${kota}', '${hotel_id}', '${hotel_name}', '${noPol}', ${kursiTersedia})`;
 
   connection.query(query, (error, results) => {
     if (error) {
@@ -782,9 +782,9 @@ app.post('/booking_bundle', verifyToken, (req, res) => {
 // Endpoint to update a booking bundle by ID
 app.put('/booking_bundle/:id', verifyToken, (req, res) => {
   const bundleId = req.params.id;
-  const { NIK, nama_user, tiket_id, destination_name, quantity, kota, hotel_id, hotel_name, noPol, kursiTersedia } = req.body;
+  const { user_id, nama_user, tiket_id, destination_name, quantity, kota, hotel_id, hotel_name, noPol, kursiTersedia } = req.body;
 
-  const query = `UPDATE booking_bundle SET NIK = ${NIK}, nama_user = '${nama_user}', tiket_id = ${tiket_id}, destination_name = '${destination_name}', quantity = ${quantity}, kota = '${kota}', hotel_id = '${hotel_id}', hotel_name = '${hotel_name}', noPol = '${noPol}', kursiTersedia = ${kursiTersedia} WHERE id = ${bundleId}`;
+  const query = `UPDATE booking_bundle SET user_id = ${user_id}, nama_user = '${nama_user}', tiket_id = ${tiket_id}, destination_name = '${destination_name}', quantity = ${quantity}, kota = '${kota}', hotel_id = '${hotel_id}', hotel_name = '${hotel_name}', noPol = '${noPol}', kursiTersedia = ${kursiTersedia} WHERE id = ${bundleId}`;
 
   connection.query(query, (error, results) => {
     if (error) {
