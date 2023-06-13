@@ -4,6 +4,14 @@ This is a simple Express API for tourism booking ticket. It provides various end
 
 ![Beautiful Places in Indonesia](https://media.istockphoto.com/id/675172642/photo/pura-ulun-danu-bratan-temple-in-bali.webp?b=1&s=170667a&w=0&k=20&c=i6eVZIrC53B4jl-I4p3YIn9ZRViyVoMbRdp-NznLDUE=)
 
+| Name                            | Student ID   |
+| ------------------------------- | ------------ |
+| Novan Janis Aditya Halawa       | 1202201382   |
+| I Gusti Ngurah Bagus Wanadri    | 1202204104   |
+| Ilham Suryo Laksono             | 1202200137   |
+| Adinda Novita Prima Putri       | 1202204179   |
+| Frisca Alifia Alia Kamila       | 1202201377   |
+| Kadek Cahya Mira Widjaya        | 1202204228   |
 
 ## Setup
 
